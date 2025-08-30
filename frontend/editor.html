@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ===============| Favicon |============== -->
+    <link rel="apple-touch-icon" sizes="57x57" href="./resources/favicons/">
+    <link rel="apple-touch-icon" sizes="57x57" href="./resources/favicons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="./resources/favicons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="./resources/favicons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="./resources/favicons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="./resources/favicons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="./resources/favicons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="./resources/favicons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="./resources/favicons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./resources/favicons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="./resources/favicons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./resources/favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="./resources/favicons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./resources/favicons/favicon-16x16.png">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+
+    <!-- External icon links -->
+    <script src="https://kit.fontawesome.com/f584623432.js" crossorigin="anonymous"></script>
+
+    <!-- ======== Main CSS ======== -->
+    <link rel="stylesheet" href="./styles/editor.css">
+
+    <!-- codemirror liberies css & script -->
+    <script src="./codemirror/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="./codemirror/lib/codemirror.css">
+
+    <!-- for mode ===== here is for javascript only -->
+    <script src="./codemirror/mode/xml/xml.js"></script>
+    <script src="./codemirror/mode/css/css.js"></script>
+    <script src="./codemirror/mode/javascript/javascript.js"></script>
+
+
+
+    <!-- some addons -->
+    <script src="./codemirror/addon/edit/closetag.js"></script>
+    <script src="./codemirror/addon/edit/closebrackets.js"></script>
+    <script src="./codemirror/addon/scroll/simplescrollbars.js"></script>
+    <script src="./codemirror/addon/hint/show-hint.js"></script>
+    <script src="./codemirror/addon/hint/show-hint.js"></script>
+    <script src="./codemirror/addon/hint/css-hint.js"></script>
+    <script src="./codemirror/addon/hint/html-hint.js"></script>
+    <script src="./codemirror/addon/hint/javascript-hint.js"></script>
+    <link rel="stylesheet" href="./codemirror/addon/hint/show-hint.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/split.js/1.0.0/split.min.js"
+        integrity="sha512-tTsZnBXEzNdEaqUO9Ok8fUofS73xieiBa54pD/sxOSvayIgItM9MmEM0CnUjA13LDnJT22sfwmjf20+Bo2174g=="
+        crossorigin="anonymous"></script>
+    <title>Edito - Online Text Editor</title>
+
+    <!-- ======== Main CSS ======== -->
+    <link rel="stylesheet" href="./styles/main_section.css">
+    <link rel="stylesheet" href="./styles/loader.css">
+
+    <!-- ======== SOCKET CDN ======== -->
+    <script src="https://cdn.socket.io/3.1.3/socket.io.min.js"
+        integrity="sha384-cPwlPLvBTa3sKAgddT6krw0cJat7egBga3DJepJyrLl4Q9/5WLra3rrnMcyTyOnh"
+        crossorigin="anonymous"></script>
+
+
+    <!-- ======== BOOTSTRAP CSS ======== -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- CODEMIRROR THEMES  -->
+    <link rel="stylesheet" href="./codemirror/theme/ayu-dark.css">
+    <!-- <link rel="stylesheet" href="./codemirror/theme/abcdef.css"> -->
+
+
+</head>
+
+<body>
+    <section class="nav-bar">
+        <div class="nav_logo">
+            <img src="./images/main.png.png" alt="" width="110">
+        </div>
+
+        <div class="nav_container">
+            <button class="btn btn-light btn-sm" id="saveOnClick">
+                <i class="fa-solid fa-shield"></i>
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"
+                    style="display: none;"></span>
+                Save
+            </button>
+            <button class="btn btn-light btn-sm" id="autoSaveOnClick">
+                <i class="fa-solid fa-circle-dot"></i>
+                <span class="spinner-grow spinner-grow-sm bg-success" role="status" aria-hidden="true"
+                    style="display: none;"></span>
+                Auto Save
+            </button>
+
+            <button class="btn btn-light btn-sm" id="runOnClick">
+                <i class="fa-solid fa-rotate-right"></i>
+                Run
+            </button>
+            <button type="button" class="btn btn-danger btn-sm" id="runLive">
+                <i class="fa-solid fa-arrows-rotate"></i>
+                Live
+            </button>
+            <div class="btn-group">
+                <button type="button" class="btn btn-light dropdown-toggle btn-sm" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Theme
+                </button>
+                <ul class="dropdown-menu" id="themeDropDownMenu">
+
+                </ul>
+            </div>
+            <div class="btn-group">
+                <button type="button" class="btn btn-light dropdown-toggle btn-sm" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i class="fa-solid fa-box"></i>
+                    Layout
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" id="nav_layout-1">Layout 1</a></li>
+                    <li><a class="dropdown-item" id="nav_layout-2">Layout 2</a></li>
+                    <li><a class="dropdown-item" id="nav_layout-3">Layout 3</a></li>
+                </ul>
+            </div>
+            <button type="button" class="btn btn-light position-relative btn-sm" id="sidebar-controller">
+                <i class="fa-solid fa-users"></i>
+                Users |
+                <b><span id="userCount">2</span></b>
+            </button>
+        </div>
+    </section>
+
+    <div class="sidebar">
+
+        <div class="sidebar_roomid" data-bs-toggle="tooltip" data-bs-placement="left"
+            title="Click to copy" id="roomid_section">
+            <i class="fa-solid fa-house"></i>
+            <span class="roomid_section">ROOM ID</span>
+        </div>
+        <ul class="nav-list" id="appendItems">
+
+        </ul>
+    </div>
+
+    <section class="main_section layout_1" id="main_section">
+        <div class="resizable-x">
+            <div class="resizable-y" style="width: 50%;">
+                <div class="resizer-y html">HTML</div>
+                <div class="html_editor" style="height: 33.33%;min-height: 50px;">
+                    <textarea id="htmlCode" placeholder="Type HTML code here"></textarea>
+                </div>
+                <div class="resizer-y resizer-y-1 css">CSS</div>
+                <div class="css_editor" style="height: 33.33%;min-height: 50px;">
+                    <textarea id="cssCode" placeholder="Type CSS code here"></textarea>
+                </div>
+                <div class="resizer-y js">JS</div>
+                <div class="js_editor" style="height: 33.33%;min-height: 50px;">
+                    <textarea id="javascriptCode" placeholder="Type JavaScript code here"></textarea>
+                </div>
+            </div>
+            <div class="resizer-x resizer-x-1"></div>
+            <div class="output_iframe_section" style="width: 50%;">
+                <iframe id="viewer"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================== Alert Toast ========================== -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="liveToast" class="toast bg-dark text-light" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body danger" id="toast-msg">
+                    Hello, world! This is a toast message.
+                </div>
+                <button type="button" class="btn-close me-2 m-auto " data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+    <!-- ========================== BOOTSTRAP JS ========================== -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
+
+<script src="./scripts/theme.js" type="module"></script>
+<script src="./scripts/editor.js" type="module"></script>
+<script src="./scripts/main_section_layout.js" type="module"></script>
+<script src="./scripts/resizer.js" type="module"></script>
